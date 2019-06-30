@@ -6,6 +6,16 @@ const bodyParser = require('body-parser')
 const mongodb = require('mongodb');
 const session = require('express-session')
 const uri = 'mongodb://plamendbuser:Test1234!@ds263156.mlab.com:63156/dayana-portfolio';
+var MongoDBStore = require('connect-mongodb-session')(session);
+var store = new MongoDBStore({
+  uri: uri,
+  databaseName: 'dayana-portfolio',
+  collection: 'mySessions'
+});
+store.on('error', function (error) {
+  console.log(error);
+});
+
 const {
   SESSION_LIFETIME = 1000 * 60 * 60 * 2,
   SESSION_ID = 'session_id',
@@ -14,14 +24,17 @@ const {
   SESS_SECRET = 'AS!@#D'
 } = process.env
 
+mongodb.MongoClient.connect(uri)
+
 express()
   .use(bodyParser.json())
   .use(bodyParser.urlencoded())
   .use(session({
     name: SESSION_ID,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     secret: SESS_SECRET,
+    store: store,
     cookie: {
       maxAge: SESSION_LIFETIME,
       sameSite: true,
