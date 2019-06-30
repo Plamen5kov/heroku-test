@@ -1,23 +1,33 @@
 {
-  "name": "heroku-test",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "name": "node-js-getting-started",
+  "version": "0.3.0",
+  "description": "A sample Node.js app using Express 4",
+  "engines": {
+    "node": "10.x"
+  },
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "jquery": "^3.4.1",
+    "mongodb": "^3.2.7"
+  },
+  "devDependencies": {
+    "request": "^2.81.0",
+    "tape": "^4.7.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Plamen5kov/heroku-test.git"
+    "url": "https://github.com/heroku/node-js-getting-started"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Plamen5kov/heroku-test/issues"
-  },
-  "homepage": "https://github.com/Plamen5kov/heroku-test#readme",
-  "dependencies": {
-    "mongodb": "^3.2.7"
-  }
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
 }

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body>
+
+  <% include ../partials/nav.ejs %>
+
+  <div class="text-center container">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">What do I want/need to learn?</th>
+          <th scope="col">What will I do to achieve this?</th>
+          <th scope="col">What resources or support will I need?</th>
+          <th scope="col">What will my success criteria be?</th>
+          <th scope="col">Target dates for review and completion</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% developmentPlans.forEach(function(item) { %>
+        <tr>
+          <td scope="row"><%= item.what_do_i_need_to_learn %> </td>
+          <td scope="row"><%= item.what_will_i_do_to_achieve_this %> </td>
+          <td scope="row"><%= item.what_resources_or_support_will_i_need %> </td>
+          <td scope="row"><%= item.what_will_my_success_criteria_be %> </td>
+          <td scope="row"><%= item.target_dates_for_review_and_completion %> </td>
+        </tr>
+        <% }); %>
+
+      </tbody>
+    </table>
+
+  </div>
+</body>
+
+</html>

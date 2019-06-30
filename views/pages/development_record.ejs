@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body>
+
+  <% include ../partials/nav.ejs %>
+
+  <div class="text-center container">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Key Dates</th>
+          <th scope="col">What did you do?</th>
+          <th scope="col">Why?</th>
+          <th scope="col">What did you learn from this?</th>
+          <th scope="col">How have/will you used/ use this? Any further action?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% developmentRecords.forEach(function(item) { %>
+        <tr>
+          <td scope="row"><%= item.key_dates %> </td>
+          <td scope="row"><%= item.what_did_you_do %> </td>
+          <td scope="row"><%= item.why %> </td>
+          <td scope="row"><%= item.what_did_you_learn_from_this %> </td>
+          <td scope="row"><%= item.how_will_you_use_this %> </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+  </div>
+</body>
+
+</html>
