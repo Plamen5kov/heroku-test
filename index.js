@@ -14,12 +14,9 @@ const {
   SESS_SECRET = 'AS!@#D'
 } = process.env
 
-const users = [
-  { id: 1, name: "dany", email: "dany@gmail.com", password: "password" }
-]
-
 express()
   .use(bodyParser.json())
+  .use(bodyParser.urlencoded())
   .use(session({
     name: SESSION_ID,
     resave: false,
@@ -44,8 +41,22 @@ express()
     res.render('pages/admin', { loggedIn: !!req.session.userId })
   })
   .post('/admin', function (req, res) {
-    req.session.userId = 1
-    res.redirect('/assignments')
+    mongodb.MongoClient.connect(uri, function (err, client) {
+      if (err) throw err;
+      var data = client.db('dayana-portfolio').collection('users')
+        .find({ user: req.body.username, pass: req.body.password });
+
+      data.toArray().then()
+        .then(
+          data => {
+            if (data.length) {
+              req.session.userId = true
+              res.redirect('/about')
+            }
+          },
+          err => alert("couln't login")
+        )
+    });
   })
   .get('/logout', function (req, res) {
     req.session.destroy(err => {

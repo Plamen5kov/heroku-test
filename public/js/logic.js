@@ -1,3 +1,5 @@
+import { fail } from "assert";
+
 $(document).ready(function () {
     $("#post_assignment_btn").click(function () {
         var data = {
