@@ -10,6 +10,7 @@
   <% include ../partials/nav.ejs %>
 
   <div class="text-center container">
+    <h1>Development Record</h1>
     <table class="table">
       <thead class="thead-dark">
         <tr>
@@ -30,10 +31,31 @@
           <td scope="row"><%= item.how_will_you_use_this %> </td>
         </tr>
         <% }); %>
+        <tr>
+          <td scope="row">
+            <textarea class="form-control" id="post_development_record_1" rows="1"></textarea>
+          </td>
+          <td scope="row">
+            <textarea class="form-control" id="post_development_record_2" rows="1"></textarea>
+          </td>
+          <td scope="row">
+            <textarea class="form-control" id="post_development_record_3" rows="1"></textarea>
+          </td>
+          <td scope="row">
+            <textarea class="form-control" id="post_development_record_4" rows="1"></textarea>
+          </td>
+          <td scope="row">
+            <textarea class="form-control" id="post_development_record_5" rows="1"></textarea>
+          </td>
+          <td scope="row">
+            <a id="post_development_record_btn" class="btn btn-primary" role="button">Upload</a>
+          </td>
+        </tr>
       </tbody>
     </table>
 
   </div>
+  <% include ../partials/scripts.ejs %>
 </body>
 
 </html>

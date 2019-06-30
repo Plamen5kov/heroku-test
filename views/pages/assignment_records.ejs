@@ -10,6 +10,7 @@
   <% include ../partials/nav.ejs %>
 
   <div class="text-center container">
+    <h1>Assignment Records</h1>
     <table class="table">
       <thead class="thead-dark">
         <tr>
@@ -28,10 +29,29 @@
           <td scope="row"><a href="<%= item.file %>" class="btn btn-primary" role="button">Download</a></td>
         </tr>
         <% }); %>
+        <tr>
+          <td scope="row">
+            <textarea class="form-control" id="post_assignment_1" rows="1"></textarea>
+          </td>
+          <td scope="row">
+            <textarea class="form-control" id="post_assignment_2" rows="1"></textarea>
+          </td>
+          <td scope="row">
+            <textarea class="form-control" id="post_assignment_3" rows="1"></textarea>
+          </td>
+          <td scope="row">
+            <textarea class="form-control" id="post_assignment_4" rows="1"></textarea>
+          </td>
+          <td scope="row">
+            <a id="post_assignment_btn" class="btn btn-primary" role="button">Upload</a>
+          </td>
+        </tr>
       </tbody>
     </table>
 
   </div>
+
+  <% include ../partials/scripts.ejs %>
 </body>
 
 </html>
