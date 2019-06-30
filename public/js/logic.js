@@ -52,4 +52,23 @@ $(document).ready(function () {
             }
         })
     });
+    $("#login_btn").click(function () {
+        var data = {
+            username: $("#username").val(),
+            password: $("#password").val()
+        }
+        $.ajax({
+            url: '/admin',
+            type: 'POST',
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify(data)
+        })
+    });
+    $("#logout_btn").click(function () {
+        $.ajax({
+            url: '/logout',
+            type: 'POST',
+            contentType: 'application/json;charset=utf-8'
+        })
+    });
 });

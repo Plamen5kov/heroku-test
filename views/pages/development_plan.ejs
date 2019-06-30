@@ -31,6 +31,8 @@
           <td scope="row"><%= item.target_dates_for_review_and_completion %> </td>
         </tr>
         <% }); %>
+
+        <% if (loggedIn) { %>
         <tr>
           <td scope="row">
             <textarea class="form-control" id="post_development_plan_1" rows="1"></textarea>
@@ -51,6 +53,7 @@
             <a id="post_development_plan_btn" class="btn btn-primary" role="button">Upload</a>
           </td>
         </tr>
+        <% } %>
       </tbody>
     </table>
 

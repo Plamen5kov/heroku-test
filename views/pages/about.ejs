@@ -11,6 +11,11 @@
 
   <div class="text-center container">
     <h1>Portfolio</h1>
+    <% if (loggedIn) { %>
+    <h1>Logged in</h1>
+    <% } else { %>
+    <h1>Logged out</h1>
+    <% } %>
   </div>
 </body>
 

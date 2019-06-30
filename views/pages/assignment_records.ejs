@@ -29,6 +29,8 @@
           <td scope="row"><a href="<%= item.file %>" class="btn btn-primary" role="button">Download</a></td>
         </tr>
         <% }); %>
+
+        <% if (loggedIn) { %>
         <tr>
           <td scope="row">
             <textarea class="form-control" id="post_assignment_1" rows="1"></textarea>
@@ -46,6 +48,7 @@
             <a id="post_assignment_btn" class="btn btn-primary" role="button">Upload</a>
           </td>
         </tr>
+        <% } %>
       </tbody>
     </table>
 
