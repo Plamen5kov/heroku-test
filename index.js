@@ -65,6 +65,8 @@ express()
             if (data.length) {
               req.session.userId = true
               res.redirect('/about')
+            } else {
+              console.log("########## COULDN'T LOGIN")
             }
           },
           err => alert("couln't login")
