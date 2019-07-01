@@ -8,6 +8,7 @@ const session = require('express-session')
 const mongoose = require('mongoose');
 const uri = 'mongodb://plamendbuser:Test1234!@ds263156.mlab.com:63156/dayana-portfolio';
 const MongoStore = require('connect-mongo')(session);
+var logged_in_user = false;
 
 mongoose.connect(uri);
 mongoose.Promise = global.Promise;
@@ -29,7 +30,9 @@ express()
     resave: true,
     saveUninitialized: true,
     secret: SESS_SECRET,
-    store: new MongoStore({ mongooseConnection: db }),
+    store: new MongoStore({
+      mongooseConnection: db
+    }),
     cookie: {
       maxAge: SESSION_LIFETIME,
       sameSite: true,
@@ -40,129 +43,106 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => {
-    res.render('pages/about', { loggedIn: !!req.session.userId })
+    res.render('pages/about', { loggedIn: logged_in_user })
   })
   .get('/about', function (req, res) {
-    console.log("userId:")
-    console.log(req.session)
-    console.log(req.session.userId)
-    res.render('pages/about', { loggedIn: !!req.session.userId })
+    res.render('pages/about', { loggedIn: logged_in_user })
   })
   .get('/admin', function (req, res) {
-    res.render('pages/admin', { loggedIn: !!req.session.userId })
+    res.render('pages/admin', { loggedIn: logged_in_user })
   })
   .post('/admin', function (req, res) {
-    console.log("########## trying to login")
+    if (req.body.username === "dany" && req.body.password === "d@y4nA") {
+      logged_in_user = true
+    }
+    res.redirect('/about')
 
-    // db.connect(uri, function (err, client) {
-    // if (err) throw err;
-    var data = db.collection('users')
-      .find({ user: req.body.username, pass: req.body.password });
+    // var data = db.collection('users')
+    //   .find({ user: req.body.username, pass: req.body.password });
 
+    // data.toArray().then()
+    //   .then(
+    //     data => {
+    //       if (data.length) {
+    //         console.log("########## SUCCESS LOGIN!")
+    //         req.session.userId = true
+    //         console.log(req.session)
+    //         console.log(req.session.userId)
+    //         res.redirect('/about')
+    //       } else {
+    //         console.log("########## COULDN'T LOGIN")
+    //       }
+    //     },
+    //     err => alert("couln't login")
+    //   )
+  })
+  .get('/logout', function (req, res) {
+    logged_in_user = false;
+    res.redirect('/about')
+    // req.session.destroy(err => {
+    //   if (err) return res.redirect('/')
+    //   res.clearCookie(SESSION_ID)
+    //   res.redirect('/about')
+    // })
+  })
+  .get('/development_plan', function (req, res) {
+    var data = db.collection('development_plans').find({})
     data.toArray().then()
       .then(
         data => {
-          if (data.length) {
-            console.log("########## SUCCESS LOGIN!")
-            req.session.userId = true
-            console.log(req.session)
-            console.log(req.session.userId)
-            res.redirect('/about')
-          } else {
-            console.log("########## COULDN'T LOGIN")
-          }
+          res.render('pages/development_plan', {
+            developmentPlans: data,
+            loggedIn: logged_in_user
+          })
         },
-        err => alert("couln't login")
+        err => console.log(err)
       )
-    // });
-  })
-  .get('/logout', function (req, res) {
-    req.session.destroy(err => {
-      if (err) return res.redirect('/')
-      res.clearCookie(SESSION_ID)
-      res.redirect('/about')
-    })
-  })
-  .get('/development_plan', function (req, res) {
-    db.connect(uri, function (err, client) {
-      if (err) throw err;
-      var data = client.db('dayana-portfolio').collection('development_plans').find({})
-      data.toArray().then()
-        .then(
-          data => {
-            res.render('pages/development_plan', {
-              developmentPlans: data,
-              loggedIn: !!req.session.userId
-            })
-          },
-          err => console.log(err)
-        )
-    })
   })
   .post('/development_plan', function (req, res) {
-    db.connect(uri, function (err, client) {
-      if (err) throw err;
-      client
-        .db('dayana-portfolio')
-        .collection('development_plans')
-        .insert(req.body, (err, data) => {
-          if (err) throw err;
-          res.redirect(req.originalUrl)
-        })
-    })
+    db.collection('development_plans')
+      .insert(req.body, (err, data) => {
+        if (err) throw err;
+        res.redirect(req.originalUrl)
+      })
   })
   .get('/development_record', function (req, res) {
-    db.connect(uri, function (err, client) {
-      if (err) throw err;
-      var data = client.db('dayana-portfolio').collection('development_records').find({})
-      data.toArray().then()
-        .then(
-          data => {
-            res.render('pages/development_record', {
-              developmentRecords: data,
-              loggedIn: !!req.session.userId
-            })
-          },
-          err => console.log(err)
-        )
-    })
+    var data = db.collection('development_records').find({})
+    data.toArray().then()
+      .then(
+        data => {
+          res.render('pages/development_record', {
+            developmentRecords: data,
+            loggedIn: logged_in_user
+          })
+        },
+        err => console.log(err)
+      )
   })
   .post('/development_record', function (req, res) {
-    db.connect(uri, function (err, client) {
-      if (err) throw err;
-      client
-        .db('dayana-portfolio')
-        .collection('development_records')
-        .insert(req.body, (err, data) => {
-          if (err) throw err;
-          res.redirect(req.originalUrl)
-        })
-    })
+    db.collection('development_records')
+      .insert(req.body, (err, data) => {
+        if (err) throw err;
+        res.redirect(req.originalUrl)
+      })
   })
   .get('/assignments', function (req, res) {
-    // db.connect(uri, function (err, client) {
-    // if (err) throw err;
+
     var data = db.collection('assignment_records').find({})
     data.toArray().then()
       .then(
         data => {
           res.render('pages/assignment_records', {
             assignmentRecords: data,
-            loggedIn: !!req.session.userId
+            loggedIn: logged_in_user
           })
         },
         err => console.log(err)
       )
-    // })
   })
   .post('/assignments', function (req, res) {
-    db.connect(uri, function (err, client) {
-      if (err) throw err;
-      client
-        .db('dayana-portfolio')
-        .collection('assignment_records')
-        .insert(req.body)
-    })
+
+    db.collection('assignment_records')
+      .insert(req.body)
     res.redirect(req.get('referer'));
   })
 
