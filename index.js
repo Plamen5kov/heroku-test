@@ -5,12 +5,11 @@ const $ = require('jquery')
 const bodyParser = require('body-parser')
 // const mongodb = require('mongodb');
 const session = require('express-session')
+const mongoose = require('mongoose');
 const uri = 'mongodb://plamendbuser:Test1234!@ds263156.mlab.com:63156/dayana-portfolio';
 const MongoStore = require('connect-mongo')(session);
 
-mongoose.connect(uri, {
-  useMongoClient: true
-});
+mongoose.connect(uri);
 mongoose.Promise = global.Promise;
 const db = mongoose.connection
 
@@ -53,25 +52,25 @@ express()
   .post('/admin', function (req, res) {
     console.log("########## trying to login")
 
-    db.connect(uri, function (err, client) {
-      if (err) throw err;
-      var data = client.db('dayana-portfolio').collection('users')
-        .find({ user: req.body.username, pass: req.body.password });
+    // db.connect(uri, function (err, client) {
+    // if (err) throw err;
+    var data = db.collection('users')
+      .find({ user: req.body.username, pass: req.body.password });
 
-      data.toArray().then()
-        .then(
-          data => {
-            if (data.length) {
-              console.log("########## SUCCESS LOGIN!")
-              req.session.userId = true
-              res.redirect('/about')
-            } else {
-              console.log("########## COULDN'T LOGIN")
-            }
-          },
-          err => alert("couln't login")
-        )
-    });
+    data.toArray().then()
+      .then(
+        data => {
+          if (data.length) {
+            console.log("########## SUCCESS LOGIN!")
+            req.session.userId = true
+            res.redirect('/about')
+          } else {
+            console.log("########## COULDN'T LOGIN")
+          }
+        },
+        err => alert("couln't login")
+      )
+    // });
   })
   .get('/logout', function (req, res) {
     req.session.destroy(err => {
@@ -137,20 +136,20 @@ express()
     })
   })
   .get('/assignments', function (req, res) {
-    db.connect(uri, function (err, client) {
-      if (err) throw err;
-      var data = client.db('dayana-portfolio').collection('assignment_records').find({})
-      data.toArray().then()
-        .then(
-          data => {
-            res.render('pages/assignment_records', {
-              assignmentRecords: data,
-              loggedIn: !!req.session.userId
-            })
-          },
-          err => console.log(err)
-        )
-    })
+    // db.connect(uri, function (err, client) {
+    // if (err) throw err;
+    var data = db.collection('assignment_records').find({})
+    data.toArray().then()
+      .then(
+        data => {
+          res.render('pages/assignment_records', {
+            assignmentRecords: data,
+            loggedIn: !!req.session.userId
+          })
+        },
+        err => console.log(err)
+      )
+    // })
   })
   .post('/assignments', function (req, res) {
     db.connect(uri, function (err, client) {
