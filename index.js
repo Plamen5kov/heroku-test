@@ -54,6 +54,8 @@ express()
     res.render('pages/admin', { loggedIn: !!req.session.userId })
   })
   .post('/admin', function (req, res) {
+    console.log("########## trying to login")
+
     mongodb.MongoClient.connect(uri, function (err, client) {
       if (err) throw err;
       var data = client.db('dayana-portfolio').collection('users')
@@ -63,6 +65,7 @@ express()
         .then(
           data => {
             if (data.length) {
+              console.log("########## SUCCESS LOGIN!")
               req.session.userId = true
               res.redirect('/about')
             } else {
