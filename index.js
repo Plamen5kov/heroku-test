@@ -3,18 +3,16 @@ const path = require('path')
 const PORT = process.env.PORT || 5000
 const $ = require('jquery')
 const bodyParser = require('body-parser')
-const mongodb = require('mongodb');
+// const mongodb = require('mongodb');
 const session = require('express-session')
 const uri = 'mongodb://plamendbuser:Test1234!@ds263156.mlab.com:63156/dayana-portfolio';
-var MongoDBStore = require('connect-mongodb-session')(session);
-var store = new MongoDBStore({
-  uri: uri,
-  databaseName: 'dayana-portfolio',
-  collection: 'mySessions'
+const MongoStore = require('connect-mongo')(session);
+
+mongoose.connect(uri, {
+  useMongoClient: true
 });
-store.on('error', function (error) {
-  console.log("STORE ERROR: " + error);
-});
+mongoose.Promise = global.Promise;
+const db = mongoose.connection
 
 const {
   SESSION_LIFETIME = 1000 * 60 * 60 * 2,
@@ -24,8 +22,6 @@ const {
   SESS_SECRET = 'AS!@#D'
 } = process.env
 
-mongodb.MongoClient.connect(uri)
-
 express()
   .use(bodyParser.json())
   .use(bodyParser.urlencoded())
@@ -34,7 +30,7 @@ express()
     resave: true,
     saveUninitialized: true,
     secret: SESS_SECRET,
-    store: store,
+    store: new MongoStore({ mongooseConnection: db }),
     cookie: {
       maxAge: SESSION_LIFETIME,
       sameSite: true,
@@ -57,7 +53,7 @@ express()
   .post('/admin', function (req, res) {
     console.log("########## trying to login")
 
-    mongodb.MongoClient.connect(uri, function (err, client) {
+    db.connect(uri, function (err, client) {
       if (err) throw err;
       var data = client.db('dayana-portfolio').collection('users')
         .find({ user: req.body.username, pass: req.body.password });
@@ -85,7 +81,7 @@ express()
     })
   })
   .get('/development_plan', function (req, res) {
-    mongodb.MongoClient.connect(uri, function (err, client) {
+    db.connect(uri, function (err, client) {
       if (err) throw err;
       var data = client.db('dayana-portfolio').collection('development_plans').find({})
       data.toArray().then()
@@ -101,7 +97,7 @@ express()
     })
   })
   .post('/development_plan', function (req, res) {
-    mongodb.MongoClient.connect(uri, function (err, client) {
+    db.connect(uri, function (err, client) {
       if (err) throw err;
       client
         .db('dayana-portfolio')
@@ -113,7 +109,7 @@ express()
     })
   })
   .get('/development_record', function (req, res) {
-    mongodb.MongoClient.connect(uri, function (err, client) {
+    db.connect(uri, function (err, client) {
       if (err) throw err;
       var data = client.db('dayana-portfolio').collection('development_records').find({})
       data.toArray().then()
@@ -129,7 +125,7 @@ express()
     })
   })
   .post('/development_record', function (req, res) {
-    mongodb.MongoClient.connect(uri, function (err, client) {
+    db.connect(uri, function (err, client) {
       if (err) throw err;
       client
         .db('dayana-portfolio')
@@ -141,7 +137,7 @@ express()
     })
   })
   .get('/assignments', function (req, res) {
-    mongodb.MongoClient.connect(uri, function (err, client) {
+    db.connect(uri, function (err, client) {
       if (err) throw err;
       var data = client.db('dayana-portfolio').collection('assignment_records').find({})
       data.toArray().then()
@@ -157,7 +153,7 @@ express()
     })
   })
   .post('/assignments', function (req, res) {
-    mongodb.MongoClient.connect(uri, function (err, client) {
+    db.connect(uri, function (err, client) {
       if (err) throw err;
       client
         .db('dayana-portfolio')
