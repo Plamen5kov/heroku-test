@@ -13,7 +13,7 @@ var store = new MongoDBStore({
   collection: 'mySessions'
 });
 store.on('error', function (error) {
-  console.log(error);
+  console.log("STORE ERROR: " + error);
 });
 
 const {
@@ -48,6 +48,7 @@ express()
     res.render('pages/about', { loggedIn: !!req.session.userId })
   })
   .get('/about', function (req, res) {
+    console.log("userId: " + req.session.userId)
     res.render('pages/about', { loggedIn: !!req.session.userId })
   })
   .get('/admin', function (req, res) {
