@@ -43,7 +43,9 @@ express()
     res.render('pages/about', { loggedIn: !!req.session.userId })
   })
   .get('/about', function (req, res) {
-    console.log("userId: " + req.session.userId)
+    console.log("userId:")
+    console.log(req.session)
+    console.log(req.session.userId)
     res.render('pages/about', { loggedIn: !!req.session.userId })
   })
   .get('/admin', function (req, res) {
@@ -63,6 +65,8 @@ express()
           if (data.length) {
             console.log("########## SUCCESS LOGIN!")
             req.session.userId = true
+            console.log(req.session)
+            console.log(req.session.userId)
             res.redirect('/about')
           } else {
             console.log("########## COULDN'T LOGIN")
