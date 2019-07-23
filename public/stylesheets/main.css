@@ -53,10 +53,19 @@
     }
 
     .aboutMePicture {
-      display: block;
+      float: left;
       margin-left: auto;
       margin-right: auto;
       height: 50%;
+    }
+
+    .aboutMeText {
+      float: left;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: justify;
+      padding-left: 3%;
+      width: 30%
     }
 
     #login .container #login-row #login-column #login-box {
