@@ -24,11 +24,11 @@
       <tbody>
         <% developmentRecords.forEach(function(item) { %>
         <tr id="<%= item._id %>">
-          <td scope="row" fieldName="key_dates"><%= item.key_dates %> </td>
-          <td scope="row" fieldName="what_did_you_do"><%= item.what_did_you_do %> </td>
-          <td scope="row" fieldName="why"><%= item.why %> </td>
-          <td scope="row" fieldName="what_did_you_learn_from_this"><%= item.what_did_you_learn_from_this %> </td>
-          <td scope="row" fieldName="how_will_you_use_this"><%= item.how_will_you_use_this %> </td>
+          <td scope="row" fieldName="key_dates"><%= item.key_dates %></td>
+          <td scope="row" fieldName="what_did_you_do"><%= item.what_did_you_do %></td>
+          <td scope="row" fieldName="why"><%= item.why %></td>
+          <td scope="row" fieldName="what_did_you_learn_from_this"><%= item.what_did_you_learn_from_this %></td>
+          <td scope="row" fieldName="how_will_you_use_this"><%= item.how_will_you_use_this %></td>
           <% if (loggedIn) { %>
           <td scope="row">
             <a id="edit_developmentRecords_btn" entityId="<%= item._id %>" class="btn btn-primary"

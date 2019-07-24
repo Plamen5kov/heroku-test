@@ -2,59 +2,59 @@ $(document).ready(function () {
 
     function getAssignmentData() {
         return {
-            name_of_subject: $("#post_assignment_1").val(),
-            title_of_assignment: $("#post_assignment_2").val(),
-            evaluation: $("#post_assignment_3").val(),
-            file: $("#post_assignment_4").val()
+            name_of_subject: $("#post_assignment_1").val().trim(),
+            title_of_assignment: $("#post_assignment_2").val().trim(),
+            evaluation: $("#post_assignment_3").val().trim(),
+            file: $("#post_assignment_4").val().trim()
         }
     }
 
     function getDevelopmentData() {
         return {
-            what_do_i_need_to_learn: $("#post_development_plan_1").val(),
-            what_will_i_do_to_achieve_this: $("#post_development_plan_2").val(),
-            what_resources_or_support_will_i_need: $("#post_development_plan_3").val(),
-            what_will_my_success_criteria_be: $("#post_development_plan_4").val(),
-            target_dates_for_review_and_completion: $("#post_development_plan_5").val()
+            what_do_i_need_to_learn: $("#post_development_plan_1").val().trim(),
+            what_will_i_do_to_achieve_this: $("#post_development_plan_2").val().trim(),
+            what_resources_or_support_will_i_need: $("#post_development_plan_3").val().trim(),
+            what_will_my_success_criteria_be: $("#post_development_plan_4").val().trim(),
+            target_dates_for_review_and_completion: $("#post_development_plan_5").val().trim()
         }
     }
 
     function getDevelopmentRecordsData() {
         return {
-            key_dates: $("#post_development_record_1").val(),
-            what_did_you_do: $("#post_development_record_2").val(),
-            why: $("#post_development_record_3").val(),
-            what_did_you_learn_from_this: $("#post_development_record_4").val(),
-            how_will_you_use_this: $("#post_development_record_5").val(),
+            key_dates: $("#post_development_record_1").val().trim(),
+            what_did_you_do: $("#post_development_record_2").val().trim(),
+            why: $("#post_development_record_3").val().trim(),
+            what_did_you_learn_from_this: $("#post_development_record_4").val().trim(),
+            how_will_you_use_this: $("#post_development_record_5").val().trim(),
         }
     }
 
     function getCurrentAssignmentValues(rootView) {
         return {
-            name_of_subject: rootView.find("[fieldName=name_of_subject]").text(),
-            title_of_assignment: rootView.find("[fieldName=title_of_assignment]").text(),
-            evaluation: rootView.find("[fieldName=evaluation]").text(),
+            name_of_subject: rootView.find("[fieldName=name_of_subject]").text().trim(),
+            title_of_assignment: rootView.find("[fieldName=title_of_assignment]").text().trim(),
+            evaluation: rootView.find("[fieldName=evaluation]").text().trim(),
             file: rootView.find("[fieldName=file]").attr("href")
         }
     }
 
     function getCurrentDevelopmentValues(rootView) {
         return {
-            what_do_i_need_to_learn: rootView.find("[fieldName=what_do_i_need_to_learn]").text(),
-            what_will_i_do_to_achieve_this: rootView.find("[fieldName=what_will_i_do_to_achieve_this]").text(),
-            what_resources_or_support_will_i_need: rootView.find("[fieldName=what_resources_or_support_will_i_need]").text(),
-            what_will_my_success_criteria_be: rootView.find("[fieldName=what_will_my_success_criteria_be]").text(),
-            target_dates_for_review_and_completion: rootView.find("[fieldName=target_dates_for_review_and_completion]").text(),
+            what_do_i_need_to_learn: rootView.find("[fieldName=what_do_i_need_to_learn]").text().trim(),
+            what_will_i_do_to_achieve_this: rootView.find("[fieldName=what_will_i_do_to_achieve_this]").text().trim(),
+            what_resources_or_support_will_i_need: rootView.find("[fieldName=what_resources_or_support_will_i_need]").text().trim(),
+            what_will_my_success_criteria_be: rootView.find("[fieldName=what_will_my_success_criteria_be]").text().trim(),
+            target_dates_for_review_and_completion: rootView.find("[fieldName=target_dates_for_review_and_completion]").text().trim(),
         }
     }
 
     function getCurrentDevelopmentRecordsValues(rootView) {
         return {
-            key_dates: rootView.find("[fieldName=key_dates]").text(),
-            what_did_you_do: rootView.find("[fieldName=what_did_you_do]").text(),
-            why: rootView.find("[fieldName=why]").text(),
-            what_did_you_learn_from_this: rootView.find("[fieldName=what_did_you_learn_from_this]").text(),
-            how_will_you_use_this: rootView.find("[fieldName=how_will_you_use_this]").text(),
+            key_dates: rootView.find("[fieldName=key_dates]").text().trim(),
+            what_did_you_do: rootView.find("[fieldName=what_did_you_do]").text().trim(),
+            why: rootView.find("[fieldName=why]").text().trim(),
+            what_did_you_learn_from_this: rootView.find("[fieldName=what_did_you_learn_from_this]").text().trim(),
+            how_will_you_use_this: rootView.find("[fieldName=how_will_you_use_this]").text().trim(),
         }
     }
 

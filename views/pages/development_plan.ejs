@@ -24,15 +24,11 @@
       <tbody>
         <% developmentPlans.forEach(function(item) { %>
         <tr id="<%= item._id %>">
-          <td scope="row" fieldName="what_do_i_need_to_learn"><%= item.what_do_i_need_to_learn %> </td>
-          <td scope="row" fieldName="what_will_i_do_to_achieve_this"><%= item.what_will_i_do_to_achieve_this %> </td>
-          <td scope="row" fieldName="what_resources_or_support_will_i_need">
-            <%= item.what_resources_or_support_will_i_need %> </td>
-          <td scope="row" fieldName="what_will_my_success_criteria_be"><%= item.what_will_my_success_criteria_be %>
-          </td>
-          <td scope="row" fieldName="target_dates_for_review_and_completion">
-            <%= item.target_dates_for_review_and_completion %>
-          </td>
+          <td scope="row" fieldName="what_do_i_need_to_learn"><%= item.what_do_i_need_to_learn %></td>
+          <td scope="row" fieldName="what_will_i_do_to_achieve_this"><%= item.what_will_i_do_to_achieve_this %></td>
+          <td scope="row" fieldName="what_resources_or_support_will_i_need"> <%= item.what_resources_or_support_will_i_need %></td>
+          <td scope="row" fieldName="what_will_my_success_criteria_be"><%= item.what_will_my_success_criteria_be %></td>
+          <td scope="row" fieldName="target_dates_for_review_and_completion"><%= item.target_dates_for_review_and_completion %></td>
           <% if (loggedIn) { %>
           <td scope="row">
             <a id="edit_development_btn" entityId="<%= item._id %>" class="btn btn-primary" role="button">Edit</a>
