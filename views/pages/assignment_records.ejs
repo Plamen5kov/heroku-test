@@ -22,27 +22,36 @@
       </thead>
       <tbody>
         <% assignmentRecords.forEach(function(item) { %>
-        <tr>
-          <td scope="row"><%= item.name_of_subject %> </td>
-          <td scope="row"><%= item.title_of_assignment %> </td>
-          <td scope="row"><%= item.evaluation %> </td>
-          <td scope="row"><a href="<%= item.file %>" class="btn btn-primary" role="button">Download</a></td>
+        <tr id="<%= item._id %>">
+          <td scope="row" fieldName="name_of_subject"><%= item.name_of_subject %> </td>
+          <td scope="row" fieldName="title_of_assignment"><%= item.title_of_assignment %> </td>
+          <td scope="row" fieldName="evaluation"><%= item.evaluation %> </td>
+          <td scope="row"><a fieldName="file" href="<%= item.file %>" class="btn btn-primary" role="button">Download</a>
+          </td>
+          <% if (loggedIn) { %>
+          <td scope="row">
+            <a id="edit_assignment_btn" entityId="<%= item._id %>" class="btn btn-primary" role="button">Edit</a>
+          </td>
+          <td scope="row">
+            <a id="delete_assignment_btn" entityId="<%= item._id %>" class="btn btn-primary" role="button">Delete</a>
+          </td>
+          <% } %>
         </tr>
         <% }); %>
 
         <% if (loggedIn) { %>
-        <tr>
+        <tr id="assignmentEditForm">
           <td scope="row">
-            <textarea class="form-control" id="post_assignment_1" rows="1"></textarea>
+            <textarea fieldName="name_of_subject" class="form-control" id="post_assignment_1" rows="1"></textarea>
           </td>
           <td scope="row">
-            <textarea class="form-control" id="post_assignment_2" rows="1"></textarea>
+            <textarea fieldName="title_of_assignment" class="form-control" id="post_assignment_2" rows="1"></textarea>
           </td>
           <td scope="row">
-            <textarea class="form-control" id="post_assignment_3" rows="1"></textarea>
+            <textarea fieldName="evaluation" class="form-control" id="post_assignment_3" rows="1"></textarea>
           </td>
           <td scope="row">
-            <textarea class="form-control" id="post_assignment_4" rows="1"></textarea>
+            <textarea fieldName="file" class="form-control" id="post_assignment_4" rows="1"></textarea>
           </td>
           <td scope="row">
             <a id="post_assignment_btn" class="btn btn-primary" role="button">Upload</a>

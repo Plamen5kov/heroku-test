@@ -8,7 +8,8 @@ const session = require('express-session')
 const mongoose = require('mongoose');
 const uri = 'mongodb://plamendbuser:Test1234!@ds263156.mlab.com:63156/dayana-portfolio';
 const MongoStore = require('connect-mongo')(session);
-var logged_in_user = false;
+var logged_in_user = true;
+
 
 mongoose.connect(uri);
 mongoose.Promise = global.Promise;
@@ -100,11 +101,34 @@ express()
   })
   .post('/development_plan', function (req, res) {
     db.collection('development_plans')
-      .insert(req.body, (err, data) => {
+      .insertOne(req.body, (err, data) => {
         if (err) throw err;
         res.redirect(req.originalUrl)
       })
   })
+  .put('/development_plan', function (req, res) {
+    db.collection('development_plans')
+      .updateOne(
+        { "_id": mongoose.Types.ObjectId(req.body.id) },
+        { $set: req.body },
+      )
+      .then(() => {
+        res.status(200).json({ status: "ok" })
+      }, (err) => {
+        console.log("Err on update: ")
+        console.log(err)
+      })
+  })
+  .delete('/development_plan', function (req, res) {
+    db.collection('development_plans')
+      .deleteOne({ "_id": mongoose.Types.ObjectId(req.body.id) })
+      .then(() => {
+        res.status(200).json({ status: "ok" })
+      })
+  })
+
+
+
   .get('/development_record', function (req, res) {
     var data = db.collection('development_records').find({})
     data.toArray().then()
@@ -125,6 +149,28 @@ express()
         res.redirect(req.originalUrl)
       })
   })
+  .put('/development_record', function (req, res) {
+    db.collection('development_records')
+      .updateOne(
+        { "_id": mongoose.Types.ObjectId(req.body.id) },
+        { $set: req.body },
+      )
+      .then(() => {
+        res.status(200).json({ status: "ok" })
+      }, (err) => {
+        console.log("Err on update: ")
+        console.log(err)
+      })
+  })
+  .delete('/development_record', function (req, res) {
+    db.collection('development_records')
+      .deleteOne({ "_id": mongoose.Types.ObjectId(req.body.id) })
+      .then(() => {
+        res.status(200).json({ status: "ok" })
+      })
+  })
+
+
   .get('/assignments', function (req, res) {
 
     var data = db.collection('assignment_records').find({})
@@ -144,6 +190,26 @@ express()
     db.collection('assignment_records')
       .insert(req.body)
     res.redirect(req.get('referer'));
+  })
+  .put('/assignments', function (req, res) {
+    db.collection('assignment_records')
+      .updateOne(
+        { "_id": mongoose.Types.ObjectId(req.body.id) },
+        { $set: req.body },
+      )
+      .then(() => {
+        res.status(200).json({ status: "ok" })
+      }, (err) => {
+        console.log("Err on update: ")
+        console.log(err)
+      })
+  })
+  .delete('/assignments', function (req, res) {
+    db.collection('assignment_records')
+      .deleteOne({ "_id": mongoose.Types.ObjectId(req.body.id) })
+      .then(() => {
+        res.status(200).json({ status: "ok" })
+      })
   })
 
   .listen(PORT, () => console.log(`Listening on ${PORT}`))
