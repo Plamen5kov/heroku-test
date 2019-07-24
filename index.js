@@ -128,7 +128,6 @@ express()
   })
 
 
-
   .get('/development_record', function (req, res) {
     var data = db.collection('development_records').find({})
     data.toArray().then()
