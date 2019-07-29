@@ -11,7 +11,7 @@ const MongoStore = require('connect-mongo')(session);
 var logged_in_user = true;
 
 
-mongoose.connect(uri);
+mongoose.connect(uri, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 const db = mongoose.connection
 
@@ -25,7 +25,6 @@ const {
 
 express()
   .use(bodyParser.json())
-  .use(bodyParser.urlencoded())
   .use(session({
     name: SESSION_ID,
     resave: true,
@@ -171,13 +170,35 @@ express()
 
 
   .get('/assignments', function (req, res) {
-
-    var data = db.collection('assignment_records').find({})
+    var data = db.collection('assignment_records_groups').find({})
     data.toArray().then()
       .then(
-        data => {
+        queryResult => {
+          assignmentRecords = []
+          queryResult.forEach(queryElement => {
+            var inserted = false
+            assignmentRecords.forEach(record => {
+              if (record.groupName === queryElement.groupName) {
+                record.records.push(queryElement)
+                inserted = true
+              }
+            });
+            if (!inserted) {
+              assignmentRecords.push({
+                groupName: queryElement.groupName,
+                records: [queryElement]
+              })
+            }
+          });
+          assignmentRecords.sort(function (a, b) {
+            if(a.groupName < b.groupName) { return -1; }
+            if(a.groupName > b.groupName) { return 1; }
+            return 0;
+          });
           res.render('pages/assignment_records', {
-            assignmentRecords: data,
+            data: {
+              assignmentRecords
+            },
             loggedIn: logged_in_user
           })
         },
@@ -186,12 +207,12 @@ express()
   })
   .post('/assignments', function (req, res) {
 
-    db.collection('assignment_records')
+    db.collection('assignment_records_groups')
       .insert(req.body)
     res.redirect(req.get('referer'));
   })
   .put('/assignments', function (req, res) {
-    db.collection('assignment_records')
+    db.collection('assignment_records_groups')
       .updateOne(
         { "_id": mongoose.Types.ObjectId(req.body.id) },
         { $set: req.body },
@@ -204,7 +225,7 @@ express()
       })
   })
   .delete('/assignments', function (req, res) {
-    db.collection('assignment_records')
+    db.collection('assignment_records_groups')
       .deleteOne({ "_id": mongoose.Types.ObjectId(req.body.id) })
       .then(() => {
         res.status(200).json({ status: "ok" })

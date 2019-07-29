@@ -21,22 +21,28 @@
         </tr>
       </thead>
       <tbody>
-        <% assignmentRecords.forEach(function(item) { %>
-        <tr id="<%= item._id %>">
-          <td scope="row" fieldName="name_of_subject"><%= item.name_of_subject %> </td>
-          <td scope="row" fieldName="title_of_assignment"><%= item.title_of_assignment %> </td>
-          <td scope="row" fieldName="evaluation"><%= item.evaluation %> </td>
-          <td scope="row"><a fieldName="file" href="<%= item.file %>" class="btn btn-primary" role="button">Download</a>
+        <% data.assignmentRecords.forEach(function(item) { %>
+        <tr>
+          <td colspan="6" scope="row" style="background-color: bisque; text-transform: uppercase; font-weight: bold;"><%= item.groupName %> </td>
+        </tr>
+        <% item.records.forEach(function(record) { %>
+        <tr id="<%= record._id %>">
+          <td scope="row" fieldName="name_of_subject"><%= record.name_of_subject %> </td>
+          <td scope="row" fieldName="title_of_assignment"><%= record.title_of_assignment %> </td>
+          <td scope="row" fieldName="evaluation"><%= record.evaluation %> </td>
+          <td scope="row"><a fieldName="file" href="<%= record.file %>" class="btn btn-primary"
+              role="button">Download</a>
           </td>
           <% if (loggedIn) { %>
           <td scope="row">
-            <a id="edit_assignment_btn" entityId="<%= item._id %>" class="btn btn-primary" role="button">Edit</a>
+            <a id="edit_assignment_btn" entityId="<%= record._id %>" class="btn btn-primary" role="button">Edit</a>
           </td>
           <td scope="row">
-            <a id="delete_assignment_btn" entityId="<%= item._id %>" class="btn btn-primary" role="button">Delete</a>
+            <a id="delete_assignment_btn" entityId="<%= record._id %>" class="btn btn-primary" role="button">Delete</a>
           </td>
           <% } %>
         </tr>
+        <% }); %>
         <% }); %>
 
         <% if (loggedIn) { %>
@@ -52,6 +58,22 @@
           </td>
           <td scope="row">
             <textarea fieldName="file" class="form-control" id="post_assignment_4" rows="1"></textarea>
+          </td>
+          <td scope="row">
+            <select id="group_name_selector">
+              <option selected="true" value="empty">
+                <p> </p>
+              </option>
+              <option value="new_group">
+                <p>Create New Group</p>
+              </option>
+              <% data.assignmentRecords.forEach(function(item) { %>
+              <option value="<%= item.groupName %>"><%= item.groupName %></option>
+              <% }); %>
+            </select>
+          </td>
+          <td scope="row" id="group_input_container">
+            <textarea fieldName="file" class="form-control" id="post_assignment_5" rows="1"></textarea>
           </td>
           <td scope="row">
             <a id="post_assignment_btn" class="btn btn-primary" role="button">Upload</a>

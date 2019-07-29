@@ -1,11 +1,20 @@
 $(document).ready(function () {
 
+    $("#group_input_container").hide()
+    $("#group_name_selector").on("click", () => {
+        if ($("#group_name_selector").val().trim() === "new_group") {
+            $("#group_input_container").show()
+        } else {
+            $("#group_input_container").hide()
+        }
+    })
     function getAssignmentData() {
         return {
             name_of_subject: $("#post_assignment_1").val().trim(),
             title_of_assignment: $("#post_assignment_2").val().trim(),
             evaluation: $("#post_assignment_3").val().trim(),
-            file: $("#post_assignment_4").val().trim()
+            file: $("#post_assignment_4").val().trim(),
+            groupName: $("#group_name_selector").val().trim() === "new_group" ? $("#post_assignment_5").val().trim() : $("#group_name_selector").val().trim() === "empty" ? "" : $("#group_name_selector").val().trim()
         }
     }
 
@@ -71,10 +80,14 @@ $(document).ready(function () {
     }
     $("body").on('click', '#update_assignment_btn', function () {
         var data = getAssignmentData();
-        var clickedBtnID = $(this).attr('entityId');
-        data.id = clickedBtnID;
-        doRequestWithData('PUT', data, '/assignments');
-        $("#assignmentEditForm").show()
+        if (data.groupName === "") {
+            alert("Don't use empty as group name!")
+        } else {
+            var clickedBtnID = $(this).attr('entityId');
+            data.id = clickedBtnID;
+            doRequestWithData('PUT', data, '/assignments');
+            $("#assignmentEditForm").show()
+        }
     });
 
     $("body").on('click', '#update_development_btn', function () {
@@ -93,6 +106,14 @@ $(document).ready(function () {
         $("#developmentRecordsEditForm").show()
     });
 
+    $("body").on('click', '#group_name_selector', function () {
+        if ($("#group_name_selector").val().trim() === "new_group") {
+            $("#group_input_container").show()
+        } else {
+            $("#group_input_container").hide()
+        }
+    });
+
     $('a[entityId]').click(function () {
         var clickedBtnID = $(this).attr('entityId');
         var id = $(this).attr('id');
@@ -102,7 +123,7 @@ $(document).ready(function () {
             doRequestWithData('DELETE', data, '/assignments');
         }
         if (id == "edit_assignment_btn") {
-            var data = getCurrentAssignmentValues($("#" + clickedBtnID));
+            var data = getCurrentAssignmentValues($('#' + clickedBtnID));
             $("#assignmentEditForm").hide()
             var $clone = $('#assignmentEditForm').clone()
             $clone.find("[fieldName=name_of_subject]").text(data.name_of_subject)
@@ -157,7 +178,11 @@ $(document).ready(function () {
 
     $("#post_assignment_btn").click(function () {
         var data = getAssignmentData();
-        doRequestWithData('POST', data, '/assignments');
+        if (data.groupName === "") {
+            alert("Don't use empty as group name!")
+        } else {
+            doRequestWithData('POST', data, '/assignments');
+        }
     });
     $("#post_development_plan_btn").click(function () {
         var data = getDevelopmentData();
